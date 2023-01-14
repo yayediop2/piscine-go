@@ -1,8 +1,4 @@
-package main
-
-import (
-	"fmt"
-)
+package piscine
 
 func StrRev(s string) string {
 	var t string
@@ -10,10 +6,4 @@ func StrRev(s string) string {
 		t += string(s[i])
 	}
 	return t
-}
-
-func main() {
-	s := "Hello World!"
-	s = StrRev(s)
-	fmt.Println(s)
 }

@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package piscine
 
 func IterativeFactorial(nb int) int {
 	var r int = 1
@@ -17,8 +15,4 @@ func IterativeFactorial(nb int) int {
 		}
 	}
 	return r
-}
-
-func main() {
-	fmt.Println(IterativeFactorial(4))
 }

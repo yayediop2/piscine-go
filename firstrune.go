@@ -6,5 +6,6 @@ func FirstRune(s string) rune {
 	for range s {
 		i = s[0]
 	}
-	return rune(i)
+	m := rune(i)
+	return m
 }

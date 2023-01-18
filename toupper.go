@@ -1,7 +1,4 @@
-package main
-
-import "fmt"
-
+package piscine
 func ToUpper(s string) string {
 	bs := []byte(s)
 	for _, value := range bs {
@@ -10,8 +7,4 @@ func ToUpper(s string) string {
 		}
 	}
 	return string(bs)
-}
-
-func main() {
-	fmt.Println(ToUpper("Hello! How are you?"))
 }

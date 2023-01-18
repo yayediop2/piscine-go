@@ -1,5 +1,7 @@
 package piscine
 
+import "github.com/01-edu/z01"
+
 func PrintNbrInOrder(n int) {
 	var tab []int
 	if n == 0 {

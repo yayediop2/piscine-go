@@ -1,6 +1,4 @@
-package main
-
-import "github.com/01-edu/z01"
+package piscine
 
 func PrintNbrInOrder(n int) {
 	var tab []int
@@ -22,10 +20,4 @@ func PrintNbrInOrder(n int) {
 	for index := range tab {
 		z01.PrintRune(rune(tab[index] + '0'))
 	}
-}
-
-func main() {
-	PrintNbrInOrder(321)
-	PrintNbrInOrder(0)
-	PrintNbrInOrder(321)
 }

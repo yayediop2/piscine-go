@@ -1,4 +1,4 @@
-package main
+package piscine
 
 func ToUpper(s string) string {
 	bs := []byte(s)

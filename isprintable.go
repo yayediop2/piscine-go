@@ -1,6 +1,4 @@
-package main
-
-import "fmt"
+package piscine
 
 func IsPrintable(s string) bool {
 	bs := []byte(s)
@@ -10,9 +8,4 @@ func IsPrintable(s string) bool {
 		}
 	}
 	return true
-}
-
-func main() {
-	fmt.Println(IsPrintable("Hello"))
-	fmt.Println(IsPrintable("Hello\n"))
 }

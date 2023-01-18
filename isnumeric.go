@@ -1,8 +1,4 @@
-package main
-
-import (
-	"fmt"
-)
+package piscine
 
 func IsNumeric(s string) bool {
 	bs := []byte(s)
@@ -12,9 +8,4 @@ func IsNumeric(s string) bool {
 		}
 	}
 	return true
-}
-
-func main() {
-	fmt.Println(IsNumeric("010203"))
-	fmt.Println(IsNumeric("01,02,03"))
 }

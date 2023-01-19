@@ -1,4 +1,4 @@
-package piscine
+package main
 
 import (
 	"os"
@@ -6,9 +6,10 @@ import (
 	"github.com/01-edu/z01"
 )
 
-func printprogramname() {
-	a := os.Args[0]
-	for _, v := range a {
-		z01.PrintRune(rune(v))
+func main() {
+	a := []rune(os.Args[0])
+	for i := 2; i < len(a); i++ { // les deux premiers elements sont le point et le slash
+		z01.PrintRune(a[i])
 	}
+	z01.PrintRune('\n')
 }

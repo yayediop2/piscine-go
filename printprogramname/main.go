@@ -12,9 +12,3 @@ func printprogramname() {
 		z01.PrintRune(rune(v))
 	}
 }
-
-/*
-func main() {
-	printprogramname()
-}
-*/

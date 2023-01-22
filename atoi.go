@@ -3,7 +3,7 @@ package piscine
 func Atoi(s string) int {
 	sr := []rune(s)
 	var x int = 0
-	if len(sr) == 0{
+	if len(sr) == 0 {
 		return 0
 	}
 	if sr[0] == '+' {

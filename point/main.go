@@ -23,7 +23,7 @@ func Print_int(a int) {
 		}
 	}
 	r := a % 10
-	z01.PrintRune(rune(r) + '0')
+	z01.PrintRune(rune(int((r) + '0')))
 }
 
 func main() {

@@ -8,12 +8,17 @@ type point struct {
 }
 
 func Print_int(a int) {
-	nouveauN := a / 10
-	if nouveauN != 0 {
-		Print_int(nouveauN)
+	if a == 0 {
+		z01.PrintRune('0')
 	}
-	result := a % 10
-	z01.PrintRune(rune(result) + '0')
+	if a != 0 {
+		na := a / 10
+		if na != 0 {
+			Print_int(na)
+		}
+	}
+	r := a % 10
+	z01.PrintRune(rune(r) + '0')
 }
 
 func main() {

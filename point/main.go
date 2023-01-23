@@ -12,18 +12,19 @@ func setPoint(ptr *point) {
 	ptr.y = 21
 }
 
-func Print_int(a int) {
-	if a == 0 {
-		z01.PrintRune('0')
-	}
-	if a != 0 {
-		na := a / 10
-		if na != 0 {
-			Print_int(na)
+func Print_int(n int) {
+	if n < 10 {
+		for i, j := 0, '0'; i <= n%10; i, j = i+1, j+1 {
+			if i == n%10 {
+				z01.PrintRune(j)
+			}
 		}
+	} else {
+		nbr := n / 10
+		mod := n % 10
+		Print_int(nbr)
+		Print_int(mod)
 	}
-	r := a % 10
-	z01.PrintRune(rune(int((r) + '0')))
 }
 
 func main() {

@@ -7,6 +7,11 @@ type point struct {
 	y int
 }
 
+func setPoint(ptr *point) {
+	ptr.x = 42
+	ptr.y = 21
+}
+
 func Print_int(a int) {
 	if a == 0 {
 		z01.PrintRune('0')
@@ -22,9 +27,8 @@ func Print_int(a int) {
 }
 
 func main() {
-	points := point{}
-	points.x = 42
-	points.y = 21
+	points := &point{}
+	setPoint(points)
 	z01.PrintRune('x')
 	z01.PrintRune(' ')
 	z01.PrintRune('=')

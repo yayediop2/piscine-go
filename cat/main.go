@@ -25,13 +25,11 @@ func main() {
 			PrintStr(string(content))
 		}
 	} else if len(arg) == 1 {
-		for i := 1; i < len(arg); i++ {
-			content, err := ioutil.ReadAll(os.Stdin)
-			if err != nil {
-				PrintStr("ERROR: " + err.Error())
-				os.Exit(1)
-			}
-			PrintStr(string(content))
+		content, err := ioutil.ReadAll(os.Stdin)
+		if err != nil {
+			PrintStr("ERROR: " + err.Error() + "\n")
+			os.Exit(1)
 		}
+		PrintStr(string(content))
 	}
 }

@@ -14,7 +14,7 @@ func IsSorted(f func(a, b int) int, a []int) bool {
 	if a[0] < len(a)-1 {
 		for i := 0; i < len(a); i++ {
 			for j := i + 1; j < len(a); j++ {
-				if f(a[i], a[j]) > 0 {
+				if f(a[i], a[j]) > 0 { // si en parcourant il découvre qu'un élément est supérieur au suivant, ce n'est plus ordonné
 					return false
 				}
 			}
@@ -22,7 +22,7 @@ func IsSorted(f func(a, b int) int, a []int) bool {
 	} else if a[0] > len(a)-1 {
 		for i := 0; i < len(a); i++ {
 			for j := i + 1; j < len(a); j++ {
-				if f(a[i], a[j]) < 0 {
+				if f(a[i], a[j]) < 0 { // là, s'il découvre qu'un élément est inférieur au suivant au lieu d'etre superieur, ce n'est plus ordonné
 					return false
 				}
 			}

@@ -14,7 +14,7 @@ func Rot14(s string) string {
 				val = 'a' + 13 - reste
 				rus = append(rus, val)
 			}
-		} else if v == ' ' || v == '!' || v == '?' {
+		} else {
 			rus = append(rus, v)
 		}
 	}

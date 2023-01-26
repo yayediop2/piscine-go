@@ -1,8 +1,4 @@
-package main
-
-import (
-	"fmt"
-)
+package piscine
 
 func Abort(a, b, c, d, e int) int {
 	v := []int{a, b, c, d, e}
@@ -18,7 +14,9 @@ func Abort(a, b, c, d, e int) int {
 	return z
 }
 
+/*
 func main() {
 	middle := Abort(-2, -3, -889654, -674875, -7)
 	fmt.Println(middle)
 }
+*/

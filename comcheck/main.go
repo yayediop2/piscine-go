@@ -10,6 +10,7 @@ func main() {
 	for _, v := range arg {
 		if v == "galaxy" || v == "01" || v == "galaxy 01" {
 			fmt.Println("Alert!!!")
+			break
 		}
 	}
 }

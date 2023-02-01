@@ -1,16 +1,12 @@
-package piscine
-
-type List struct {
-	Head *NodeL
-}
+package picine
 
 func ListAt(l *NodeL, pos int) *NodeL {
-	if l.Head.Next == nil && pos > 0 {
+	if l.Data.Next == nil && pos > 0 {
 		return nil
 	}
-	for l.Head != nil {
-		l.Head = l.Head.Next
+	for l.Data != nil {
+		l.Data = l.Data.Next
 		pos--
 	}
-	return l.Head
+	return l.Data
 }

@@ -1,5 +1,9 @@
 package piscine
 
+type List struct {
+	Head *NodeL
+}
+
 func ListAt(l *NodeL, pos int) *NodeL {
 	if l.Head.Next == nil && pos > 0 {
 		return nil

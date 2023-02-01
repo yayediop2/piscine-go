@@ -1,12 +1,12 @@
-package picine
+package piscine
 
 func ListAt(l *NodeL, pos int) *NodeL {
-	if l.Data.Next == nil && pos > 0 {
+	if l.Next == nil && pos > 0 {
 		return nil
 	}
-	for l.Data != nil {
-		l.Data = l.Data.Next
+	for l != nil {
+		l = l.Next
 		pos--
 	}
-	return l.Data
+	return l
 }

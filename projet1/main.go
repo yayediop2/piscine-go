@@ -103,6 +103,10 @@ func recupF() {
 	}
 }
 
+func motCle(s string) {
+
+}
+
 func main() {
 	recupF()
 }

@@ -94,17 +94,31 @@ func SplitWhiteSpaces(s string) []string {
 func recupF() {
 	arg := os.Args[1:]
 	for i := 0; i < len(arg); i++ {
-		fichierla, _ := ioutil.ReadFile(arg[i])
+		fichierla, _ := ioutil.ReadFile(arg[0])
+		//fichierlabas, _ := ioutil.ReadFile(arg[1])
 		str := string(fichierla)
 		c := SplitWhiteSpaces(string(str))
-
+		/* for i,l:=range c{
+			fichierlabas[i]=byte(l)
+		}
+		fichierlabas=c */
 		fmt.Print(c)
 
 	}
 }
 
-func motCle(s string) {
+/* func motCle(s string) {
 
+} */
+
+func ponctuation(s string) {
+	for i := 0; i < len(s); i++ {
+		if s[i] == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
+			if s[i+1] == ' ' {
+				i++
+			}
+		}
+	}
 }
 
 func main() {

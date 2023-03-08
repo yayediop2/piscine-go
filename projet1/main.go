@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
 )
 
-/*
 // hex
 func hexadecimal(s string) int {
 	var n = 0
@@ -68,12 +69,12 @@ func ToLower(s string) string {
 	return string(bs)
 }
 
-
+/*
 a, _ := strconv.ParseInt("1E", 16, 32)
 //bin
 b, _ := strconv.ParseInt("11", 2, 32)
 */
-
+// problème avec les points là
 func SplitWhiteSpaces(s string) []string {
 	tab := []string{}
 	m := ""
@@ -81,20 +82,27 @@ func SplitWhiteSpaces(s string) []string {
 		if letter != ' ' {
 			m += string(letter)
 		}
-		if letter == ' ' || letter == '\t' || letter == '\n' || letter == rune(s[len(s)-1]) {
+		if letter == ' ' || letter == rune(s[len(s)-1]) {
 			if m != "" {
 				tab = append(tab, m)
-				m = ""
+				m = "," // ENLEVER çA APRES -> ""
 			}
 		}
 	}
 	return tab
 }
+func recupF() {
+	arg := os.Args[1:]
+	for i := 0; i < len(arg); i++ {
+		fichierla, _ := ioutil.ReadFile(arg[i])
+		str := string(fichierla)
+		c := SplitWhiteSpaces(string(str))
+
+		fmt.Print(c)
+
+	}
+}
 
 func main() {
-	//a := binaire("11")
-	//b := hexadecimal("1E")
-	//fmt.Println(a)
-	a := SplitWhiteSpaces("Hello     there!!!")
-	fmt.Println(a)
+	recupF()
 }

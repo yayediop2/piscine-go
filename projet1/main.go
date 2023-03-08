@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+/*
 // hex
 func hexadecimal(s string) int {
 	var n = 0
@@ -67,14 +68,33 @@ func ToLower(s string) string {
 	return string(bs)
 }
 
-/*
+
 a, _ := strconv.ParseInt("1E", 16, 32)
 //bin
 b, _ := strconv.ParseInt("11", 2, 32)
 */
+
+func SplitWhiteSpaces(s string) []string {
+	tab := []string{}
+	m := ""
+	for _, letter := range s {
+		if letter != ' ' {
+			m += string(letter)
+		}
+		if letter == ' ' || letter == '\t' || letter == '\n' || letter == rune(s[len(s)-1]) {
+			if m != "" {
+				tab = append(tab, m)
+				m = ""
+			}
+		}
+	}
+	return tab
+}
+
 func main() {
-	a := binaire("11")
-	b := hexadecimal("1E")
+	//a := binaire("11")
+	//b := hexadecimal("1E")
+	//fmt.Println(a)
+	a := SplitWhiteSpaces("Hello     there!!!")
 	fmt.Println(a)
-	fmt.Println(b)
 }

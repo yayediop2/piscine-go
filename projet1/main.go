@@ -86,7 +86,7 @@ func SplitWhiteSpaces(s string) []string {
 		if letter == ' ' || letter == rune(s[len(s)-1]) {
 			if m != "" {
 				tab = append(tab, m)
-				m = "," // ENLEVER çA APRES -> ""
+				m = "" // ENLEVER çA APRES -> ""
 			}
 		}
 	}
@@ -106,7 +106,7 @@ func recupF() {
 		fichierlabas=c */
 		o := motcle(c)
 		fmt.Print(o)
-		fmt.Print(c)
+		//fmt.Print(c)
 	}
 }
 
@@ -118,12 +118,16 @@ func motcle(s []string) []string {
 		if s[i] == "(cap)" {
 			tab = append(tab, Capitalize(s[i-1]))
 		}
-		if s[i] == "(cap" {
-			nomb := s[i+1]
-			for _, l := range nomb {
+		if s[i] == "(cap," {
+			for _, l := range s[i+1] {
 				if l >= '0' && l <= '9' {
-					num = int(l)
+					num = int(l - '0')
 				}
+			}
+			fmt.Print(num)
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, Capitalize(s[i-num]))
+				i++
 			}
 		}
 		//hex

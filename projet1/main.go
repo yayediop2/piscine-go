@@ -6,7 +6,6 @@ import (
 	"os"
 )
 
-// hex
 func hexadecimal(s string) int {
 	var n = 0
 	for i := 0; i < len(s); i++ {
@@ -22,7 +21,6 @@ func hexadecimal(s string) int {
 	return n
 }
 
-// bin
 func binaire(s string) int {
 	n := 0
 	for _, l := range s {
@@ -34,7 +32,32 @@ func binaire(s string) int {
 	return n
 }
 
-// cap
+func ToUpper(s string) string {
+	bs := []rune(s)
+	for i, value := range bs {
+		if value >= 97 && value <= 122 {
+			bs[i] -= 32
+		}
+	}
+	return string(bs)
+}
+
+/*
+a, _ := strconv.ParseInt("1E", 16, 32)
+//bin
+b, _ := strconv.ParseInt("11", 2, 32)
+*/
+
+func ToLower(s string) string {
+	bs := []rune(s)
+	for i, value := range bs {
+		if value >= 65 && value <= 90 {
+			bs[i] += 32
+		}
+	}
+	return string(bs)
+}
+
 func Capitalize(s string) string {
 	sr := []rune(s)
 	if len(s) > 0 {
@@ -47,34 +70,6 @@ func Capitalize(s string) string {
 	return string(sr)
 }
 
-// up
-func ToUpper(s string) string {
-	bs := []rune(s)
-	for i, value := range bs {
-		if value >= 97 && value <= 122 {
-			bs[i] -= 32
-		}
-	}
-	return string(bs)
-}
-
-// low
-func ToLower(s string) string {
-	bs := []rune(s)
-	for i, value := range bs {
-		if value >= 65 && value <= 90 {
-			bs[i] += 32
-		}
-	}
-	return string(bs)
-}
-
-/*
-a, _ := strconv.ParseInt("1E", 16, 32)
-//bin
-b, _ := strconv.ParseInt("11", 2, 32)
-*/
-// problème avec les points là
 func SplitWhiteSpaces(s string) []string {
 	tab := []string{}
 	m := ""
@@ -91,6 +86,7 @@ func SplitWhiteSpaces(s string) []string {
 	}
 	return tab
 }
+
 func recupF() {
 	arg := os.Args[1:]
 	for i := 0; i < len(arg); i++ {
@@ -104,20 +100,6 @@ func recupF() {
 		fichierlabas=c */
 		fmt.Print(c)
 
-	}
-}
-
-/* func motCle(s string) {
-
-} */
-
-func ponctuation(s string) {
-	for i := 0; i < len(s); i++ {
-		if s[i] == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
-			if s[i+1] == ' ' {
-				i++
-			}
-		}
 	}
 }
 

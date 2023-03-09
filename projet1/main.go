@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func hexadecimal(s string) string {
@@ -93,43 +94,28 @@ func SplitWhiteSpaces(s string) []string {
 	return tab
 }
 
-func recupF() {
+func recupF() []string {
 	arg := os.Args[1:]
+	var o []string
 	for i := 0; i < len(arg); i++ {
-		fichierla, _ := ioutil.ReadFile(arg[0])
-		//fichierlabas, _ := ioutil.ReadFile(arg[1])
-		str := string(fichierla)
-		c := SplitWhiteSpaces(string(str))
-		/* for i,l:=range c{
-			fichierlabas[i]=byte(l)
+		fich1, _ := ioutil.ReadFile(arg[0])
+		fich2 := ioutil.WriteFile(arg[1], []byte(strings.Join(o, " ")), 0777)
+		if fich2 != nil {
+			panic(fich2)
 		}
-		fichierlabas=c */
-		o := motcle(c)
+		str := string(fich1)
+		c := SplitWhiteSpaces(string(str))
+		o = motcle(c)
 		fmt.Print(o)
 		//fmt.Print(c)
 	}
+	return o
 }
 
 func motcle(s []string) []string {
-	tab := []string{}
+	//tab := []string{}
 	for i := 0; i < len(s); i++ {
 		var num int
-		//cap
-		if s[i] == "(cap)" {
-			tab = append(tab, Capitalize(s[i-1]))
-		}
-		if s[i] == "(cap," {
-			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' {
-					num = int(l - '0')
-				}
-			}
-			fmt.Print(num)
-			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, Capitalize(s[i-num]))
-				i++
-			}
-		}
 		//hex
 		if s[i] == "(hex)" {
 			tab = append(tab, hexadecimal(s[i-1]))
@@ -138,13 +124,56 @@ func motcle(s []string) []string {
 		if s[i] == "(bin)" {
 			tab = append(tab, binaire(s[i-1]))
 		}
+		//cap
+		if s[i] == "(cap)" {
+			tab = append(tab, Capitalize(s[i-1]))
+		}
+		// (cap,
+		if s[i] == "(cap," {
+			for _, l := range s[i+1] {
+				if l >= '0' && l <= '9' {
+					num = int(l - '0')
+					break
+				}
+			}
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, Capitalize(s[i-num]))
+				i++
+			}
+		}
 		//low
 		if s[i] == "(low)" {
 			tab = append(tab, ToLower(s[i-1]))
 		}
+		// (low,
+		if s[i] == "(low," {
+			for _, l := range s[i+1] {
+				if l >= '0' && l <= '9' {
+					num = int(l - '0')
+					break
+				}
+			}
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, ToLower(s[i-p]))
+				i++
+			}
+		}
 		//up
 		if s[i] == "(up)" {
 			tab = append(tab, ToUpper(s[i-1]))
+		}
+		// (up,
+		if s[i] == "(up," {
+			for _, l := range s[i+1] {
+				if l >= '0' && l <= '9' {
+					num = int(l - '0')
+					break
+				}
+			}
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, ToUpper(s[i-num]))
+				i++
+			}
 		}
 
 	}
@@ -154,3 +183,73 @@ func motcle(s []string) []string {
 func main() {
 	recupF()
 }
+
+/*
+func motcle(s []string) []string {
+	//tab := []string{}
+	for i := 0; i < len(s); i++ {
+		var num int
+		//hex
+		if s[i] == "(hex)" {
+			tab = append(tab, hexadecimal(s[i-1]))
+		}
+		//bin
+		if s[i] == "(bin)" {
+			tab = append(tab, binaire(s[i-1]))
+		}
+		//cap
+		if s[i] == "(cap)" {
+			tab = append(tab, Capitalize(s[i-1]))
+		}
+		// (cap,
+		if s[i] == "(cap," {
+			for _, l := range s[i+1] {
+				if l >= '0' && l <= '9' {
+					num = int(l - '0')
+					break
+				}
+			}
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, Capitalize(s[i-num]))
+				i++
+			}
+		}
+		//low
+		if s[i] == "(low)" {
+			tab = append(tab, ToLower(s[i-1]))
+		}
+		// (low,
+		if s[i] == "(low," {
+			for _, l := range s[i+1] {
+				if l >= '0' && l <= '9' {
+					num = int(l - '0')
+					break
+				}
+			}
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, ToLower(s[i-p]))
+				i++
+			}
+		}
+		//up
+		if s[i] == "(up)" {
+			tab = append(tab, ToUpper(s[i-1]))
+		}
+		// (up,
+		if s[i] == "(up," {
+			for _, l := range s[i+1] {
+				if l >= '0' && l <= '9' {
+					num = int(l - '0')
+					break
+				}
+			}
+			for p := len(s[i-1]); p >= num; p-- {
+				tab = append(tab, ToUpper(s[i-num]))
+				i++
+			}
+		}
+
+	}
+	return tab
+}
+*/

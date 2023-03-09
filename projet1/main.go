@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -106,7 +105,7 @@ func recupF() []string {
 		str := string(fich1)
 		c := SplitWhiteSpaces(string(str))
 		o = motcle(c)
-		fmt.Print(o)
+		//fmt.Print(o)
 		//fmt.Print(c)
 	}
 	return o
@@ -118,15 +117,18 @@ func motcle(s []string) []string {
 		var num int
 		//hex
 		if s[i] == "(hex)" {
-			tab = append(tab, hexadecimal(s[i-1]))
+			s[i-1] = hexadecimal(s[i-1])
+			s[i] = ""
 		}
 		//bin
 		if s[i] == "(bin)" {
-			tab = append(tab, binaire(s[i-1]))
+			s[i-1] = binaire(s[i-1])
+			s[i] = ""
 		}
 		//cap
 		if s[i] == "(cap)" {
-			tab = append(tab, Capitalize(s[i-1]))
+			s[i-1] = Capitalize(s[i-1])
+			s[i] = ""
 		}
 		// (cap,
 		if s[i] == "(cap," {
@@ -137,13 +139,14 @@ func motcle(s []string) []string {
 				}
 			}
 			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, Capitalize(s[i-num]))
+				s[i] = Capitalize(s[i-num])
 				i++
 			}
 		}
 		//low
 		if s[i] == "(low)" {
-			tab = append(tab, ToLower(s[i-1]))
+			s[i-1] = ToLower(s[i-1])
+			s[i] = ""
 		}
 		// (low,
 		if s[i] == "(low," {
@@ -154,13 +157,14 @@ func motcle(s []string) []string {
 				}
 			}
 			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, ToLower(s[i-p]))
+				s[i] = ToLower(s[i-p])
 				i++
 			}
 		}
 		//up
 		if s[i] == "(up)" {
-			tab = append(tab, ToUpper(s[i-1]))
+			s[i-1] = ToUpper(s[i-1])
+			s[i] = ""
 		}
 		// (up,
 		if s[i] == "(up," {
@@ -171,85 +175,15 @@ func motcle(s []string) []string {
 				}
 			}
 			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, ToUpper(s[i-num]))
+				s[i] = ToUpper(s[i-num])
 				i++
 			}
 		}
 
 	}
-	return tab
+	return s
 }
 
 func main() {
 	recupF()
 }
-
-/*
-func motcle(s []string) []string {
-	//tab := []string{}
-	for i := 0; i < len(s); i++ {
-		var num int
-		//hex
-		if s[i] == "(hex)" {
-			tab = append(tab, hexadecimal(s[i-1]))
-		}
-		//bin
-		if s[i] == "(bin)" {
-			tab = append(tab, binaire(s[i-1]))
-		}
-		//cap
-		if s[i] == "(cap)" {
-			tab = append(tab, Capitalize(s[i-1]))
-		}
-		// (cap,
-		if s[i] == "(cap," {
-			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' {
-					num = int(l - '0')
-					break
-				}
-			}
-			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, Capitalize(s[i-num]))
-				i++
-			}
-		}
-		//low
-		if s[i] == "(low)" {
-			tab = append(tab, ToLower(s[i-1]))
-		}
-		// (low,
-		if s[i] == "(low," {
-			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' {
-					num = int(l - '0')
-					break
-				}
-			}
-			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, ToLower(s[i-p]))
-				i++
-			}
-		}
-		//up
-		if s[i] == "(up)" {
-			tab = append(tab, ToUpper(s[i-1]))
-		}
-		// (up,
-		if s[i] == "(up," {
-			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' {
-					num = int(l - '0')
-					break
-				}
-			}
-			for p := len(s[i-1]); p >= num; p-- {
-				tab = append(tab, ToUpper(s[i-num]))
-				i++
-			}
-		}
-
-	}
-	return tab
-}
-*/

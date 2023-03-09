@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strconv"
 )
 
-func hexadecimal(s string) int {
+func hexadecimal(s string) string {
 	var n = 0
 	for i := 0; i < len(s); i++ {
 		n *= 16
@@ -18,10 +19,11 @@ func hexadecimal(s string) int {
 			n += int(s[i] - 'A' + 10)
 		}
 	}
-	return n
+	str := strconv.Itoa(n)
+	return string(str)
 }
 
-func binaire(s string) int {
+func binaire(s string) string {
 	n := 0
 	for _, l := range s {
 		n *= 2
@@ -29,7 +31,8 @@ func binaire(s string) int {
 			n += int(l - '0')
 		}
 	}
-	return n
+	str := strconv.Itoa(n)
+	return string(str)
 }
 
 func ToUpper(s string) string {
@@ -62,8 +65,11 @@ func Capitalize(s string) string {
 	sr := []rune(s)
 	if len(s) > 0 {
 		for i := 0; i < len(s); i++ {
-			if sr[i] == ' ' {
-				sr[i+1] = (sr[i+1] + ' ')
+			if i == 0 && s[i] >= 'a' && s[i] <= 'z' {
+				sr[i] = ((sr[i]) - ' ')
+				/* if sr[i] == ' ' {
+					sr[i+1] = (sr[i+1] + ' ')
+				} */
 			}
 		}
 	}
@@ -98,9 +104,47 @@ func recupF() {
 			fichierlabas[i]=byte(l)
 		}
 		fichierlabas=c */
+		o := motcle(c)
+		fmt.Print(o)
 		fmt.Print(c)
+	}
+}
+
+func motcle(s []string) []string {
+	tab := []string{}
+	for i := 0; i < len(s); i++ {
+		var num int
+		//cap
+		if s[i] == "(cap)" {
+			tab = append(tab, Capitalize(s[i-1]))
+		}
+		if s[i] == "(cap" {
+			nomb := s[i+1]
+			for _, l := range nomb {
+				if l >= '0' && l <= '9' {
+					num = int(l)
+				}
+			}
+		}
+		//hex
+		if s[i] == "(hex)" {
+			tab = append(tab, hexadecimal(s[i-1]))
+		}
+		//bin
+		if s[i] == "(bin)" {
+			tab = append(tab, binaire(s[i-1]))
+		}
+		//low
+		if s[i] == "(low)" {
+			tab = append(tab, ToLower(s[i-1]))
+		}
+		//up
+		if s[i] == "(up)" {
+			tab = append(tab, ToUpper(s[i-1]))
+		}
 
 	}
+	return tab
 }
 
 func main() {

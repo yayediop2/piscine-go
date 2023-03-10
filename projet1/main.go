@@ -114,7 +114,7 @@ func recupF() []string {
 func motcle(s []string) []string {
 	for i := 0; i < len(s); i++ {
 		var num int
-		var fin int
+		//var fin int
 		//hex
 		if s[i] == "(hex)" {
 			s[i-1] = hexadecimal(s[i-1])
@@ -168,18 +168,22 @@ func motcle(s []string) []string {
 		}
 		// (up,
 		if s[i] == "(up," {
-			fin = i
+			//fin = i
 			for _, l := range s[i+1] {
 				if l >= '0' && l <= '9' {
 					num = int(l - '0')
 					break
 				}
 			}
-			for p := fin; p >= num; p-- { // c le len là
+			s[i+1] = ""
+			for p := 1; p <= num; p++ {
+				s[i-num] = ToUpper(s[i-num])
+				i++
+			}
+			/* for p := fin; p >= num; p-- {
 				s[i] = ToUpper(s[i-num])
 				i++
-				//s[i+1] = ""
-			}
+			} */
 		}
 
 	}

@@ -1,10 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
-	"strings"
 )
 
 func hexadecimal(s string) string {
@@ -45,12 +45,6 @@ func ToUpper(s string) string {
 	return string(bs)
 }
 
-/*
-a, _ := strconv.ParseInt("1E", 16, 32)
-//bin
-b, _ := strconv.ParseInt("11", 2, 32)
-*/
-
 func ToLower(s string) string {
 	bs := []rune(s)
 	for i, value := range bs {
@@ -80,7 +74,7 @@ func SplitWhiteSpaces(s string) []string {
 	tab := []string{}
 	m := ""
 	for _, letter := range s {
-		if letter != ' ' {
+		if letter != ' ' && letter > 33 {
 			m += string(letter)
 		}
 		if letter == ' ' || letter == rune(s[len(s)-1]) {
@@ -98,7 +92,7 @@ func recupF() []string {
 	var o []string
 	for i := 0; i < len(arg); i++ {
 		fich1, _ := ioutil.ReadFile(arg[0])
-		fich2 := ioutil.WriteFile(arg[1], []byte(strings.Join(o, " ")), 0777)
+		fich2 := ioutil.WriteFile(arg[1], []byte(Join(o)), 0777)
 		if fich2 != nil {
 			panic(fich2)
 		}
@@ -111,10 +105,23 @@ func recupF() []string {
 	return o
 }
 
+func Join(strs []string) string { // utiliser join pttr
+	var s string
+	for i := 0; i < len(strs); i++ {
+		s = s + strs[i]
+		if i < len(strs)-1 {
+			s += " "
+		}
+	}
+	//SpaceRemover(s)
+	return s
+}
+
 func motcle(s []string) []string {
+	tableau := []string{}
 	for i := 0; i < len(s); i++ {
 		var num int
-		//var fin int
+
 		//hex
 		if s[i] == "(hex)" {
 			s[i-1] = hexadecimal(s[i-1])
@@ -170,7 +177,6 @@ func motcle(s []string) []string {
 		}
 		// (up,
 		if s[i] == "(up," {
-			//fin = i
 			for _, l := range s[i+1] {
 				if l >= '0' && l <= '9' {
 					num = int(l - '0')
@@ -182,22 +188,61 @@ func motcle(s []string) []string {
 				s[i-num] = ToUpper(s[i-num])
 				i++
 			}
-			/* for p := fin; p >= num; p-- {
-				s[i] = ToUpper(s[i-num])
-				i++
-			} */
+		}
+		if s[i] != "" {
+			tableau = append(tableau, s[i])
 		}
 
+	}
+	//Ponctuation(s)
+	AToAn(tableau)
+	fmt.Println(tableau)
+	return tableau
+}
+
+/*
+	 func Ponctuation(ss []string) []string {
+		var st []string
+		s := Join(ss)
+		for i := 0; i < len(s); i++ {
+			if s[i] == ' ' && s[i+1] == ' ' && s[i] != s[len(s)-1] {
+				i++
+			}
+			st = append(st, string(s[i]))
+		}
+		return st
+	}
+*/
+func AToAn(s []string) []string {
+	for i := 0; i < len(s); i++ {
+		if s[i] == "a" {
+			if isVowel(string(s[i+1][0])) {
+				s[i] = "an"
+			}
+			fmt.Println(isVowel(s[i]))
+		}
 	}
 	return s
 }
 
-func Ponctuation(s []string) {
-	for i := 0; i < len(s); i++ {
+/* func SpaceRemover(str string) []string {
+	a1 := regexp.MustCompile(`\([^)]*\)|\S+`)
+	a2 := a1.FindAllString(str, -1)
+	return a2
+} */
 
+func isVowel(s string) bool {
+	v := []string{"a", "e", "u", "i", "o", "A", "E", "U", "I", "O"}
+	for _, l := range v {
+		if s == l {
+			return true
+		}
 	}
+	return false
 }
 
 func main() {
 	recupF()
 }
+
+//Essayer de travailler avec un string pour la ponctation

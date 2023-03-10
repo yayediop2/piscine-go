@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -113,7 +112,6 @@ func Join(strs []string) string { // utiliser join pttr
 			s += " "
 		}
 	}
-	//SpaceRemover(s)
 	return s
 }
 
@@ -190,13 +188,12 @@ func motcle(s []string) []string {
 			}
 		}
 		if s[i] != "" {
-			tableau = append(tableau, s[i])
+			tableau = append(tableau, s[i]) // ICI LE TABLEAU N'EST LIÉ QU'A ATOAN
 		}
 
 	}
 	//Ponctuation(s)
 	AToAn(tableau)
-	fmt.Println(tableau)
 	return tableau
 }
 
@@ -205,10 +202,6 @@ func motcle(s []string) []string {
 		var st []string
 		s := Join(ss)
 		for i := 0; i < len(s); i++ {
-			if s[i] == ' ' && s[i+1] == ' ' && s[i] != s[len(s)-1] {
-				i++
-			}
-			st = append(st, string(s[i]))
 		}
 		return st
 	}
@@ -219,17 +212,10 @@ func AToAn(s []string) []string {
 			if isVowel(string(s[i+1][0])) {
 				s[i] = "an"
 			}
-			fmt.Println(isVowel(s[i]))
 		}
 	}
 	return s
 }
-
-/* func SpaceRemover(str string) []string {
-	a1 := regexp.MustCompile(`\([^)]*\)|\S+`)
-	a2 := a1.FindAllString(str, -1)
-	return a2
-} */
 
 func isVowel(s string) bool {
 	v := []string{"a", "e", "u", "i", "o", "A", "E", "U", "I", "O"}
@@ -244,5 +230,3 @@ func isVowel(s string) bool {
 func main() {
 	recupF()
 }
-
-//Essayer de travailler avec un string pour la ponctation

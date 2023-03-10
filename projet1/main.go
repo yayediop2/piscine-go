@@ -138,8 +138,9 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-			for p := len(s[i-1]); p >= num; p-- {
-				s[i] = Capitalize(s[i-num])
+			s[i], s[i+1] = "", ""
+			for p := 1; p <= num; p++ {
+				s[i-num] = Capitalize(s[i-num])
 				i++
 			}
 		}
@@ -151,13 +152,14 @@ func motcle(s []string) []string {
 		// (low,
 		if s[i] == "(low," {
 			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' {
+				if l >= '0' && l <= '9' { // gerer si on 14 par exemple. Eviter le out of range
 					num = int(l - '0')
-					break
+					break // on aurait plus besoin de ça
 				}
 			}
-			for p := len(s[i-1]); p >= num; p-- {
-				s[i] = ToLower(s[i-num])
+			s[i], s[i+1] = "", ""
+			for p := 1; p <= num; p++ {
+				s[i-num] = ToLower(s[i-num])
 				i++
 			}
 		}
@@ -175,7 +177,7 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-			s[i+1] = ""
+			s[i], s[i+1] = "", ""
 			for p := 1; p <= num; p++ {
 				s[i-num] = ToUpper(s[i-num])
 				i++
@@ -188,6 +190,12 @@ func motcle(s []string) []string {
 
 	}
 	return s
+}
+
+func Ponctuation(s []string) {
+	for i := 0; i < len(s); i++ {
+
+	}
 }
 
 func main() {

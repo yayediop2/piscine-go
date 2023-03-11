@@ -82,13 +82,13 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-
+			s[i], s[i+1] = "", ""
 			for p := 1; p <= num; p++ {
 				s[i-num] = Capitalize(s[i-num])
 				i++
 			}
-			s[i], s[i+1] = "", ""
 		}
+		//s = append(s[:i], s[i+2:]...) // khady dit de faire tous les traitements puis de le mettre hors de la boucle. j'ai besoin d'avoir tous les index
 		//low
 		if s[i] == "(low)" {
 			s[i-1] = ToLower(s[i-1])
@@ -161,8 +161,14 @@ func ecrireF(cv []string) {
 }
 
 func main() {
+	var tableau []string
 	a := recupF()
 	b := motcle(a)
 	c := AToAn(b)
-	ecrireF(c)
+	for _, l := range c {
+		if l != "" {
+			tableau = append(tableau, l) // ICI LE TABLEAU N'EST LIÉ QU'A ATOAN
+		}
+	}
+	ecrireF(tableau)
 }

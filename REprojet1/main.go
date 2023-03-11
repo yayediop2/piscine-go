@@ -97,7 +97,7 @@ func motcle(s []string) []string {
 		// (low,
 		if s[i] == "(low," {
 			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' { // gerer si on 14 par exemple. Eviter le out of range
+				if l >= '0' && l <= '9' { // gerer si on a 14 par exemple. Eviter le out of range
 					num = int(l - '0')
 					break // on aurait plus besoin de ça
 				}
@@ -160,15 +160,51 @@ func ecrireF(cv []string) {
 	}
 }
 
+func Ponctuation(saa []string) []string {
+	sa := strings.Join(saa, " ")
+	s := []rune(sa)
+	for i := 0; i < len(s); i++ {
+		if s[i] == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
+			if s[i-1] == ' ' {
+				s[i-1] = '0'
+			}
+			if s[i+1] != ' ' {
+				i++
+				s[i] = ' '
+			}
+		}
+	}
+	sss := []rune{}
+	for _, l := range s {
+		if l != '0' {
+			sss = append(sss, l)
+		}
+	}
+	sx := string(sss)
+	slice := strings.Split(sx, " ")
+	return slice
+}
+
+func IsLetter(s string) bool {
+	bs := []byte(s)
+	for _, value := range bs {
+		if value >= 97 && value <= 122 || value >= 65 && value <= 90 {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	var tableau []string
 	a := recupF()
 	b := motcle(a)
 	c := AToAn(b)
 	for _, l := range c {
-		if l != "" {
-			tableau = append(tableau, l) // ICI LE TABLEAU N'EST LIÉ QU'A ATOAN
+		if l != "" && l != "0" {
+			tableau = append(tableau, l)
 		}
 	}
-	ecrireF(tableau)
+	d := Ponctuation(tableau)
+	ecrireF(d)
 }

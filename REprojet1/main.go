@@ -82,10 +82,19 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-			s[i], s[i+1] = "", ""
-			for p := 1; p <= num; p++ {
-				s[i-num] = Capitalize(s[i-num])
-				i++
+			if num <= i-1 {
+				s[i], s[i+1] = "", ""
+				for p := 1; p <= num; p++ {
+					s[i-num] = Capitalize(s[i-num])
+					i++
+				}
+			} else {
+				num = i
+				s[i], s[i+1] = "", ""
+				for p := 1; p <= num; p++ {
+					s[i-num] = Capitalize(s[i-num])
+					i++
+				}
 			}
 		}
 		//s = append(s[:i], s[i+2:]...) // khady dit de faire tous les traitements puis de le mettre hors de la boucle. j'aurais besoin de tous les index
@@ -152,15 +161,10 @@ func isVowel(s string) bool {
 	return false
 }
 
-//func apostotophii()
-
 func Ponctuation(saa []string) []string {
-	var sa string
-	v := espacesSup(saa)
-	sa = strings.Join(v, " ")
-	s := []rune(sa)
+	s := FromSliceStr2Rune(saa)
 	for i := 0; i < len(s); i++ {
-		if (s[i]) == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
+		if IsPonctuation(s[i]) {
 			if s[i-1] == ' ' {
 				if s[i] == '.' && i+2 > len(s)-1 && s[i-1] == ' ' { //i+2 > len(s)-1
 					s[i-1] = '0' // pourquoi le i+1 qu'ils ont mis? ça ne marche meme paas
@@ -194,6 +198,13 @@ func Ponctuation(saa []string) []string {
 	return true
 } */
 
+func FromSliceStr2Rune(saa []string) []rune {
+	v := espacesSup(saa)
+	sa := strings.Join(v, " ")
+	s := []rune(sa)
+	return s
+}
+
 func espacesSup(s []string) []string {
 	var tableau []string
 	for _, l := range s {
@@ -211,6 +222,32 @@ func IsPonctuation(s rune) bool {
 	return false
 }
 
+func apostorophiii(sa []string) []string {
+	s := FromSliceStr2Rune(sa)
+	A := 0
+	for i := 0; i < len(s); i++ {
+		if s[i] == '\'' {
+			if A == 0 {
+				if s[i+1] == ' ' {
+					s[i+1] = s[i] // ça swap ici hein
+					s[i] = ' '
+					A = 1
+				}
+			} else if A == 1 {
+				if s[i-1] == ' ' {
+					s[i-1] = s[i] // ça swap ici hein
+					s[i] = ' '
+					//A = 0
+				}
+			}
+		}
+	}
+
+	sx := string(s)
+	slice := strings.Split(sx, " ")
+	return slice
+}
+
 func ecrireF(cv []string) {
 	arg := os.Args[1:]
 	fich2 := ioutil.WriteFile(arg[1], []byte(strings.Join(cv, " ")), 0777) // join saute
@@ -224,6 +261,7 @@ func main() {
 	b := motcle(a)
 	c := AToAn(b)
 	d := Ponctuation(c)
-	tableau := espacesSup(d)
+	e := espacesSup(d)
+	tableau := apostorophiii(e)
 	ecrireF(tableau)
 }

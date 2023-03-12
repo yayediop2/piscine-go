@@ -7,6 +7,18 @@ import (
 	"strings"
 )
 
+func recupF() []string {
+	arg := os.Args[1:]
+	var c []string
+	for i := 0; i < len(arg); i++ {
+		fich1, _ := ioutil.ReadFile(arg[0])
+
+		str := string(fich1)
+		c = strings.Fields(string(str)) // splitwhitespaces saute
+	}
+	return c
+}
+
 func ToUpper(s string) string {
 	bs := []rune(s)
 	for i, value := range bs {
@@ -37,18 +49,6 @@ func Capitalize(s string) string {
 		}
 	}
 	return string(sr)
-}
-
-func recupF() []string {
-	arg := os.Args[1:]
-	var c []string
-	for i := 0; i < len(arg); i++ {
-		fich1, _ := ioutil.ReadFile(arg[0])
-
-		str := string(fich1)
-		c = strings.Fields(string(str)) // splitwhitespaces saute
-	}
-	return c
 }
 
 func motcle(s []string) []string {
@@ -88,7 +88,7 @@ func motcle(s []string) []string {
 				i++
 			}
 		}
-		//s = append(s[:i], s[i+2:]...) // khady dit de faire tous les traitements puis de le mettre hors de la boucle. j'ai besoin d'avoir tous les index
+		//s = append(s[:i], s[i+2:]...) // khady dit de faire tous les traitements puis de le mettre hors de la boucle. j'aurais besoin de tous les index
 		//low
 		if s[i] == "(low)" {
 			s[i-1] = ToLower(s[i-1])
@@ -152,19 +152,15 @@ func isVowel(s string) bool {
 	return false
 }
 
-func ecrireF(cv []string) {
-	arg := os.Args[1:]
-	fich2 := ioutil.WriteFile(arg[1], []byte(strings.Join(cv, " ")), 0777) // join saute
-	if fich2 != nil {
-		panic(fich2)
-	}
-}
+//func apostotophii()
 
 func Ponctuation(saa []string) []string {
-	sa := strings.Join(saa, " ")
+	var sa string
+	v := espacesSup(saa)
+	sa = strings.Join(v, " ")
 	s := []rune(sa)
 	for i := 0; i < len(s); i++ {
-		if s[i] == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
+		if (s[i]) == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
 			if s[i-1] == ' ' {
 				if s[i] == '.' && i+2 > len(s)-1 && s[i-1] == ' ' { //i+2 > len(s)-1
 					s[i-1] = '0' // pourquoi le i+1 qu'ils ont mis? ça ne marche meme paas
@@ -188,7 +184,7 @@ func Ponctuation(saa []string) []string {
 	return slice
 }
 
-func IsLetter(s string) bool {
+/* func IsLetter(s string) bool {
 	bs := []byte(s)
 	for _, value := range bs {
 		if value >= 97 && value <= 122 || value >= 65 && value <= 90 {
@@ -196,6 +192,16 @@ func IsLetter(s string) bool {
 		}
 	}
 	return true
+} */
+
+func espacesSup(s []string) []string {
+	var tableau []string
+	for _, l := range s {
+		if l != "" && l != "0" {
+			tableau = append(tableau, l)
+		}
+	}
+	return tableau
 }
 
 func IsPonctuation(s rune) bool {
@@ -205,21 +211,19 @@ func IsPonctuation(s rune) bool {
 	return false
 }
 
+func ecrireF(cv []string) {
+	arg := os.Args[1:]
+	fich2 := ioutil.WriteFile(arg[1], []byte(strings.Join(cv, " ")), 0777) // join saute
+	if fich2 != nil {
+		panic(fich2)
+	}
+}
+
 func main() {
-	var tableau []string
 	a := recupF()
 	b := motcle(a)
 	c := AToAn(b)
 	d := Ponctuation(c)
-	for _, l := range d {
-		if l != "" && l != "0" {
-			tableau = append(tableau, l)
-		}
-	}
-
+	tableau := espacesSup(d)
 	ecrireF(tableau)
 }
-
-/*Simply add 42 (hex) and 10 (bin) and you will see the result is 68.
-There is no greater agony than bearing a untold story inside you.
-Punctuation tests are ... kinda boring ,don't you think !?*/

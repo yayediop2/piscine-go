@@ -166,11 +166,14 @@ func Ponctuation(saa []string) []string {
 	for i := 0; i < len(s); i++ {
 		if s[i] == '.' || s[i] == ',' || s[i] == '!' || s[i] == '?' || s[i] == ':' || s[i] == ';' {
 			if s[i-1] == ' ' {
-				s[i-1] = '0'
-			}
-			if s[i+1] != ' ' {
-				i++
-				s[i] = ' '
+				if s[i] == '.' && i+2 > len(s)-1 && s[i-1] == ' ' { //i+2 > len(s)-1
+					s[i-1] = '0' // pourquoi le i+1 qu'ils ont mis? ça ne marche meme paas
+				} else { // manam If the current rune is not a period (.) at the end of the string, it swaps
+					s[i-1] = s[i] // ça swap ici hein
+					s[i] = ' '
+				}
+			} else if i+1 < len(s)-2 && s[i+1] != ' ' && s[i-1] != '.' {
+				s[i] += s[i] + ' '
 			}
 		}
 	}
@@ -195,16 +198,28 @@ func IsLetter(s string) bool {
 	return true
 }
 
+func IsPonctuation(s rune) bool {
+	if s == '.' || s == ',' || s == '!' || s == '?' || s == ':' || s == ';' {
+		return true
+	}
+	return false
+}
+
 func main() {
 	var tableau []string
 	a := recupF()
 	b := motcle(a)
 	c := AToAn(b)
-	for _, l := range c {
+	d := Ponctuation(c)
+	for _, l := range d {
 		if l != "" && l != "0" {
 			tableau = append(tableau, l)
 		}
 	}
-	d := Ponctuation(tableau)
-	ecrireF(d)
+
+	ecrireF(tableau)
 }
+
+/*Simply add 42 (hex) and 10 (bin) and you will see the result is 68.
+There is no greater agony than bearing a untold story inside you.
+Punctuation tests are ... kinda boring ,don't you think !?*/

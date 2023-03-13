@@ -76,17 +76,19 @@ func motcle(s []string) []string {
 		}
 		// (cap,
 		if s[i] == "(cap," {
-			for _, l := range s[i+1] {
+			/* for _, l := range s[i+1] {
 				if l >= '0' && l <= '9' {
 					num = int(l - '0')
 					break
 				}
-			}
+			} */
+			nextS := s[i+1]
+			num, _ = strconv.Atoi(nextS[:len(nextS)-1])
 			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
-				for p := 1; p <= num; p++ {
-					s[i-num] = Capitalize(s[i-num])
-					i++
+				for p := num; p >= 0; p-- {
+					s[i] = Capitalize(s[i])
+					i--
 				}
 			} else {
 				num = i
@@ -105,15 +107,11 @@ func motcle(s []string) []string {
 		}
 		// (low,
 		if s[i] == "(low," {
-			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' { // gerer si on a 14 par exemple. Eviter le out of range
-					num = int(l - '0')
-					break // on aurait plus besoin de ça
-				}
-			}
+			nextS := s[i+1]
+			num, _ = strconv.Atoi(nextS[:len(nextS)-1])
 			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
-				for p := 1; p <= num; p++ {
+				for p := num; p >= 0; p-- {
 					s[i-num] = ToLower(s[i-num])
 					i++
 				}
@@ -135,15 +133,11 @@ func motcle(s []string) []string {
 		}
 		// (up,
 		if s[i] == "(up," {
-			for _, l := range s[i+1] {
-				if l >= '0' && l <= '9' {
-					num = int(l - '0')
-					break
-				}
-			}
+			nextS := s[i+1]
+			num, _ = strconv.Atoi(nextS[:len(nextS)-1])
 			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
-				for p := 1; p <= num; p++ {
+				for p := num; p >= 0; p-- {
 					s[i-num] = ToUpper(s[i-num])
 					i++
 				}
@@ -248,7 +242,7 @@ func apostorophiii(sa []string) []string {
 	A := 0
 	for i := 0; i < len(s); i++ {
 		if s[i] == '\'' && A == 0 {
-			if s[i+1] == ' ' {
+			if s[i+1] == ' ' && i+1 < len(s)-1 { // je ne pense paaas qu'on ait besoin du len là
 				s[i+1] = '0'
 			}
 			A++
@@ -259,6 +253,11 @@ func apostorophiii(sa []string) []string {
 				s[i-1] = '0'
 			}
 			A = 0
+		}
+		if s[len(s)-1] == '\'' {
+			if s[len(s)-2] == ' ' {
+				s[len(s)-2] = '0'
+			}
 		}
 	}
 

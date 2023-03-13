@@ -82,7 +82,7 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-			if num <= i-1 {
+			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
 				for p := 1; p <= num; p++ {
 					s[i-num] = Capitalize(s[i-num])
@@ -91,13 +91,13 @@ func motcle(s []string) []string {
 			} else {
 				num = i
 				s[i], s[i+1] = "", ""
-				for p := 1; p <= num; p++ {
-					s[i-num] = Capitalize(s[i-num])
-					i++
+				for p := num; p >= 0; p-- {
+					s[i] = Capitalize(s[i])
+					i--
 				}
+				break
 			}
 		}
-		//s = append(s[:i], s[i+2:]...) // khady dit de faire tous les traitements puis de le mettre hors de la boucle. j'aurais besoin de tous les index
 		//low
 		if s[i] == "(low)" {
 			s[i-1] = ToLower(s[i-1])
@@ -111,7 +111,7 @@ func motcle(s []string) []string {
 					break // on aurait plus besoin de ça
 				}
 			}
-			if num <= i-1 {
+			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
 				for p := 1; p <= num; p++ {
 					s[i-num] = ToLower(s[i-num])
@@ -120,10 +120,11 @@ func motcle(s []string) []string {
 			} else {
 				num = i
 				s[i], s[i+1] = "", ""
-				for p := 1; p <= num; p++ {
-					s[i-num] = ToLower(s[i-num])
-					i++
+				for p := num; p >= 0; p-- {
+					s[i] = ToLower(s[i])
+					i--
 				}
+				break
 			}
 
 		}
@@ -140,7 +141,7 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-			if num <= i-1 {
+			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
 				for p := 1; p <= num; p++ {
 					s[i-num] = ToUpper(s[i-num])
@@ -149,10 +150,11 @@ func motcle(s []string) []string {
 			} else {
 				num = i
 				s[i], s[i+1] = "", ""
-				for p := 1; p <= num; p++ {
-					s[i-num] = ToUpper(s[i-num])
-					i++
+				for p := num; p >= 0; p-- {
+					s[i] = ToUpper(s[i])
+					i--
 				}
+				break
 			}
 		}
 	}

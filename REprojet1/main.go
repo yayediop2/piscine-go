@@ -111,11 +111,21 @@ func motcle(s []string) []string {
 					break // on aurait plus besoin de ça
 				}
 			}
-			s[i], s[i+1] = "", ""
-			for p := 1; p <= num; p++ {
-				s[i-num] = ToLower(s[i-num])
-				i++
+			if num <= i-1 {
+				s[i], s[i+1] = "", ""
+				for p := 1; p <= num; p++ {
+					s[i-num] = ToLower(s[i-num])
+					i++
+				}
+			} else {
+				num = i
+				s[i], s[i+1] = "", ""
+				for p := 1; p <= num; p++ {
+					s[i-num] = ToLower(s[i-num])
+					i++
+				}
 			}
+
 		}
 		//up
 		if s[i] == "(up)" {
@@ -130,10 +140,19 @@ func motcle(s []string) []string {
 					break
 				}
 			}
-			s[i], s[i+1] = "", ""
-			for p := 1; p <= num; p++ {
-				s[i-num] = ToUpper(s[i-num])
-				i++
+			if num <= i-1 {
+				s[i], s[i+1] = "", ""
+				for p := 1; p <= num; p++ {
+					s[i-num] = ToUpper(s[i-num])
+					i++
+				}
+			} else {
+				num = i
+				s[i], s[i+1] = "", ""
+				for p := 1; p <= num; p++ {
+					s[i-num] = ToUpper(s[i-num])
+					i++
+				}
 			}
 		}
 	}
@@ -226,24 +245,28 @@ func apostorophiii(sa []string) []string {
 	s := FromSliceStr2Rune(sa)
 	A := 0
 	for i := 0; i < len(s); i++ {
-		if s[i] == '\'' {
-			if A == 0 {
-				if s[i+1] == ' ' {
-					s[i+1] = s[i] // ça swap ici hein
-					s[i] = ' '
-					A = 1
-				}
-			} else if A == 1 {
-				if s[i-1] == ' ' {
-					s[i-1] = s[i] // ça swap ici hein
-					s[i] = ' '
-					//A = 0
-				}
+		if s[i] == '\'' && A == 0 {
+			if s[i+1] == ' ' {
+				s[i+1] = '0'
 			}
+			A++
+			continue
+		}
+		if s[i] == '\'' && A == 1 {
+			if s[i-1] == ' ' {
+				s[i-1] = '0'
+			}
+			A = 0
 		}
 	}
 
-	sx := string(s)
+	var tableau []rune
+	for _, l := range s {
+		if l != '0' {
+			tableau = append(tableau, l)
+		}
+	}
+	sx := string(tableau)
 	slice := strings.Split(sx, " ")
 	return slice
 }
@@ -265,3 +288,29 @@ func main() {
 	tableau := apostorophiii(e)
 	ecrireF(tableau)
 }
+
+/*
+func apostorophiii(sa []string) []string {
+	s := FromSliceStr2Rune(sa)
+	A := 0
+	for i := 0; i < len(s); i++ {
+		if s[i] == '\'' && A == 0 {
+			if s[i+1] == ' ' {
+				s[i+1] = s[i] // ça swap ici hein
+				s[i] = ' '
+			}
+			A++
+			continue
+		}
+		if s[i] == '\'' && A == 1 {
+			if s[i-1] == ' ' {
+				s[i-1] = s[i]
+				s[i] = ' '
+			}
+			A = 0
+		}
+	}
+	sx := string(s)
+	slice := strings.Split(sx, " ")
+	return slice
+}*/

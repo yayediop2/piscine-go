@@ -13,7 +13,7 @@ func recupF() []string {
 	var c []string
 	for i := 0; i < len(arg); i++ {
 		fich1, _ := ioutil.ReadFile(arg[0])
-
+		//	fmt.Println(fich1)
 		str := string(fich1)
 		c = strings.Fields(string(str)) // splitwhitespaces saute
 	}
@@ -55,7 +55,6 @@ func Capitalize(s string) string {
 func motcle(s []string) []string {
 	for i := 0; i < len(s); i++ {
 		var num int
-
 		//hex
 		if s[i] == "(hex)" {
 			a, _ := strconv.ParseInt(s[i-1], 16, 32)
@@ -158,12 +157,12 @@ func motcle(s []string) []string {
 
 func AToAn(s []string) []string {
 	for i := 0; i < len(s); i++ {
-		if s[i] == "a" {
+		if s[i] == "a" && i > len(s)-1 {
 			if isVowel(string(s[i+1][0])) {
 				s[i] = "an"
 			}
 		}
-		if s[i] == "A" {
+		if s[i] == "A" && i > len(s)-1 {
 			if isVowel(string(s[i+1][0])) {
 				s[i] = "An"
 			}

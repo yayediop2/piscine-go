@@ -7,6 +7,7 @@ import (
 	"strings"
 )
 
+// J'ai remplacé tous mes 0 par +
 func recupF() []string {
 	arg := os.Args[1:]
 	var c []string
@@ -162,6 +163,11 @@ func AToAn(s []string) []string {
 				s[i] = "an"
 			}
 		}
+		if s[i] == "A" {
+			if isVowel(string(s[i+1][0])) {
+				s[i] = "An"
+			}
+		}
 	}
 	return s
 }
@@ -182,7 +188,7 @@ func Ponctuation(saa []string) []string {
 		if IsPonctuation(s[i]) {
 			if s[i-1] == ' ' {
 				if s[i] == '.' && i+2 > len(s)-1 && s[i-1] == ' ' { //i+2 > len(s)-1
-					s[i-1] = '0' // pourquoi le i+1 qu'ils ont mis? ça ne marche meme paas
+					s[i-1] = '+' // pourquoi le i+1 qu'ils ont mis? ça ne marche meme paas
 				} else { // manam If the current rune is not a period (.) at the end of the string, it swaps
 					s[i-1] = s[i] // ça swap ici hein
 					s[i] = ' '
@@ -194,7 +200,7 @@ func Ponctuation(saa []string) []string {
 	}
 	sss := []rune{}
 	for _, l := range s {
-		if l != '0' {
+		if l != '+' {
 			sss = append(sss, l)
 		}
 	}
@@ -240,30 +246,32 @@ func IsPonctuation(s rune) bool {
 func apostorophiii(sa []string) []string {
 	s := FromSliceStr2Rune(sa)
 	A := 0
-	for i := 0; i < len(s); i++ {
-		if s[i] == '\'' && A == 0 {
-			if s[i+1] == ' ' && i+1 < len(s)-1 { // je ne pense paaas qu'on ait besoin du len là
-				s[i+1] = '0'
+	if len(s) > 1 { // pour gérer le cas ou on a une seule apostrophe
+		for i := 0; i < len(s); i++ {
+			if s[i] == '\'' && A == 0 {
+				if s[i+1] == ' ' { // je ne pense paaas qu'on ait besoin du len là
+					s[i+1] = '+'
+				}
+				A++
+				continue
 			}
-			A++
-			continue
-		}
-		if s[i] == '\'' && A == 1 {
-			if s[i-1] == ' ' {
-				s[i-1] = '0'
+			if s[i] == '\'' && A == 1 {
+				if s[i-1] == ' ' {
+					s[i-1] = '+'
+				}
+				A = 0
 			}
-			A = 0
-		}
-		if s[len(s)-1] == '\'' {
-			if s[len(s)-2] == ' ' {
-				s[len(s)-2] = '0'
+			if s[len(s)-1] == '\'' {
+				if s[len(s)-2] == ' ' {
+					s[len(s)-2] = '+'
+				}
 			}
 		}
 	}
 
 	var tableau []rune
 	for _, l := range s {
-		if l != '0' {
+		if l != '+' {
 			tableau = append(tableau, l)
 		}
 	}

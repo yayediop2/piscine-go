@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -56,22 +57,28 @@ func motcle(s []string) []string {
 	for i := 0; i < len(s); i++ {
 		var num int
 		//hex
-		if s[i] == "(hex)" {
+		if s[i] == "(hex)" && i >= 1 {
 			a, _ := strconv.ParseInt(s[i-1], 16, 32)
 			b := strconv.Itoa(int(a))
 			s[i-1] = b
 			s[i] = ""
+		} else if s[i] == "(hex)" && i < 1 {
+			s[i] = ""
 		}
 		//bin
-		if s[i] == "(bin)" {
+		if s[i] == "(bin)" && i >= 1 {
 			a, _ := strconv.ParseInt(s[i-1], 2, 32)
 			b := strconv.Itoa(int(a))
 			s[i-1] = b
 			s[i] = ""
+		} else if s[i] == "(bin)" && i < 1 {
+			s[i] = ""
 		}
 		//cap
-		if s[i] == "(cap)" {
+		if s[i] == "(cap)" && i >= 1 {
 			s[i-1] = Capitalize(s[i-1])
+			s[i] = ""
+		} else if s[i] == "(cap)" && i < 1 {
 			s[i] = ""
 		}
 		// (cap,
@@ -86,23 +93,28 @@ func motcle(s []string) []string {
 			num, _ = strconv.Atoi(nextS[:len(nextS)-1])
 			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
-				for p := num; p >= 0; p-- {
-					s[i] = Capitalize(s[i])
-					i--
+				for p := num - 1; p >= 0; p-- {
+					if i >= 0 && i < len(s) {
+						fmt.Println(i)
+						s[i-1] = Capitalize(s[i-1])
+						i--
+					}
 				}
 			} else {
 				num = i
 				s[i], s[i+1] = "", ""
-				for p := num; p >= 0; p-- {
-					s[i] = Capitalize(s[i])
+				for p := num - 1; p >= 0; p-- {
+					s[i-1] = Capitalize(s[i-1])
 					i--
 				}
 				break
 			}
 		}
 		//low
-		if s[i] == "(low)" {
+		if s[i] == "(low)" && i >= 1 {
 			s[i-1] = ToLower(s[i-1])
+			s[i] = ""
+		} else if s[i] == "(low)" && i < 1 {
 			s[i] = ""
 		}
 		// (low,
@@ -111,15 +123,17 @@ func motcle(s []string) []string {
 			num, _ = strconv.Atoi(nextS[:len(nextS)-1])
 			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
-				for p := num; p >= 0; p-- {
-					s[i-num] = ToLower(s[i-num])
-					i++
+				for p := num - 1; p >= 0; p-- {
+					if i >= 0 && i < len(s) {
+						s[i-1] = ToLower(s[i-1])
+						i--
+					}
 				}
 			} else {
 				num = i
 				s[i], s[i+1] = "", ""
-				for p := num; p >= 0; p-- {
-					s[i] = ToLower(s[i])
+				for p := num - 1; p >= 0; p-- {
+					s[i-1] = ToLower(s[i-1])
 					i--
 				}
 				break
@@ -127,8 +141,10 @@ func motcle(s []string) []string {
 
 		}
 		//up
-		if s[i] == "(up)" {
+		if s[i] == "(up)" && i >= 1 {
 			s[i-1] = ToUpper(s[i-1])
+			s[i] = ""
+		} else if s[i] == "(up)" && i < 1 {
 			s[i] = ""
 		}
 		// (up,
@@ -137,15 +153,17 @@ func motcle(s []string) []string {
 			num, _ = strconv.Atoi(nextS[:len(nextS)-1])
 			if num <= len(s)-2 {
 				s[i], s[i+1] = "", ""
-				for p := num; p >= 0; p-- {
-					s[i-num] = ToUpper(s[i-num])
-					i++
+				for p := num - 1; p >= 0; p-- {
+					if i >= 0 && i < len(s) {
+						s[i-1] = ToUpper(s[i-1])
+						i--
+					}
 				}
 			} else {
 				num = i
 				s[i], s[i+1] = "", ""
-				for p := num; p >= 0; p-- {
-					s[i] = ToUpper(s[i])
+				for p := num - 1; p >= 0; p-- {
+					s[i-1] = ToUpper(s[i-1])
 					i--
 				}
 				break

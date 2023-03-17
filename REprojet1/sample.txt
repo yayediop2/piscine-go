@@ -1,1 +1,1 @@
-(cap) (low) (bin) (hex) (up)
+(max(max(cap, 2)))

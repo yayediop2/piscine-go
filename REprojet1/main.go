@@ -174,14 +174,15 @@ func motcle(s []string) []string {
 }
 
 func AToAn(s []string) []string {
+
 	for i := 0; i < len(s); i++ {
-		if s[i] == "a" && i > len(s)-1 {
-			if isVowel(string(s[i+1][0])) {
+		if s[i] == "a" && i < len(s)-1 {
+			if len(s[i+1]) > 1 && isVowel(string(s[i+1][0])) {
 				s[i] = "an"
 			}
 		}
-		if s[i] == "A" && i > len(s)-1 {
-			if isVowel(string(s[i+1][0])) {
+		if s[i] == "A" && i < len(s)-1 {
+			if len(s[i+1]) > 1 && isVowel(string(s[i+1][0])) {
 				s[i] = "An"
 			}
 		}
@@ -189,8 +190,18 @@ func AToAn(s []string) []string {
 	return s
 }
 
+/*
+	 func AToAn(saa []string) []string {
+		s := FromSliceStr2Rune(saa)
+		fmt.Print(s)
+		for i := 0; i < len(s); i++ {
+			fmt.Print("hey")
+		}
+		return saa
+	}
+*/
 func isVowel(s string) bool {
-	v := []string{"a", "e", "u", "i", "o", "A", "E", "U", "I", "O"}
+	v := []string{"a", "e", "u", "i", "o", "h", "A", "E", "U", "I", "O", "H"}
 	for _, l := range v {
 		if s == l {
 			return true
@@ -305,38 +316,20 @@ func ecrireF(cv []string) {
 	}
 }
 
+func IsAlpha(s rune) bool {
+	if (s < 48 || s > 57) && (s < 65 || s > 90) && (s < 97 || s > 122) {
+		return false
+	}
+
+	return true
+}
+
 func main() {
 	a := recupF()
 	b := motcle(a)
-	c := AToAn(b)
-	d := Ponctuation(c)
-	e := espacesSup(d)
+	c := espacesSup(b)
+	d := AToAn(c)
+	e := Ponctuation(d)
 	tableau := apostorophiii(e)
 	ecrireF(tableau)
 }
-
-/*
-func apostorophiii(sa []string) []string {
-	s := FromSliceStr2Rune(sa)
-	A := 0
-	for i := 0; i < len(s); i++ {
-		if s[i] == '\'' && A == 0 {
-			if s[i+1] == ' ' {
-				s[i+1] = s[i] // ça swap ici hein
-				s[i] = ' '
-			}
-			A++
-			continue
-		}
-		if s[i] == '\'' && A == 1 {
-			if s[i-1] == ' ' {
-				s[i-1] = s[i]
-				s[i] = ' '
-			}
-			A = 0
-		}
-	}
-	sx := string(s)
-	slice := strings.Split(sx, " ")
-	return slice
-}*/

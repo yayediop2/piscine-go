@@ -173,7 +173,7 @@ func motcle(s []string) []string {
 	return s
 }
 
-func AToAn(s []string) []string {
+/* func AToAn(s []string) []string {
 
 	for i := 0; i < len(s); i++ {
 		if s[i] == "a" && i < len(s)-1 {
@@ -188,18 +188,55 @@ func AToAn(s []string) []string {
 		}
 	}
 	return s
+} */
+
+func AToAn(sa []string) []string {
+	s := Join(sa, " ")
+	NewS := ""
+	for i := 0; i < len(s); i++ {
+		if i > 0 { // si i n'est pas le premier élément
+			if s[i] == 'a' && s[i-1] == ' ' && s[i+1] == ' ' {
+				for j := 3; j < len(s); j++ {
+					if isVowel(string(s[j])) {
+						NewS += "n"
+						break
+					}
+					if s[i] == '\'' {
+						continue
+					}
+				}
+			}
+			if s[i] == 'A' && s[i-1] == ' ' && s[i+1] == ' ' {
+				for j := 3; j < len(s); j++ {
+					if isVowel(string(s[j])) {
+						NewS += "N"
+						break
+					}
+					if s[i] == '\'' {
+						continue
+					}
+				}
+			} else {
+				NewS += string(s[i])
+			}
+		}
+		if i == 0 && i < len(s)-1 {
+			if (s[i] == 'a') && s[i+1] == ' ' {
+				NewS = string(s[i]) + "n"
+			}
+			if (s[i] == 'A') && s[i+1] == ' ' {
+				NewS = string(s[i]) + "N"
+			} else {
+				NewS = string(s[i])
+			}
+		}
+
+	}
+
+	slice := strings.Split(NewS, " ")
+	return slice
 }
 
-/*
-	 func AToAn(saa []string) []string {
-		s := FromSliceStr2Rune(saa)
-		fmt.Print(s)
-		for i := 0; i < len(s); i++ {
-			fmt.Print("hey")
-		}
-		return saa
-	}
-*/
 func isVowel(s string) bool {
 	v := []string{"a", "e", "u", "i", "o", "h", "A", "E", "U", "I", "O", "H"}
 	for _, l := range v {
@@ -208,6 +245,17 @@ func isVowel(s string) bool {
 		}
 	}
 	return false
+}
+
+func Join(strs []string, sep string) string {
+	var s string
+	for i := 0; i < len(strs); i++ {
+		s = s + strs[i]
+		if i < len(strs)-1 {
+			s += sep
+		}
+	}
+	return s
 }
 
 func Ponctuation(saa []string) []string {

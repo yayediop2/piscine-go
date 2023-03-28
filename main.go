@@ -35,13 +35,11 @@ func Capitalize(s string) string {
 
 func motcle(string0 []string) []string {
 	string1 := strings.Join(string0, " ")
-	string2 := strings.ReplaceAll(string1, "(", " (")
-	string3 := strings.ReplaceAll(string2, "( ", "(")
-	string4 := strings.ReplaceAll(string3, ")", ") ")
-	string5 := strings.ReplaceAll(string4, " )", ")")
-	s := strings.Fields(string5)
+	//fmt.Println(string1)
+	replacer := strings.NewReplacer("(cap", " (cap", "( cap", " (cap", "(low", " (low", "( low", " (low", "(up", " (up", "( up", " (up", ")", ") ", " )", ")")
+	newStr := replacer.Replace(string1)
+	s := strings.Fields(newStr)
 	taille := len(s)
-
 	for i := 0; i < taille; i++ {
 		var num int
 		//hex
@@ -278,6 +276,9 @@ func AToAn(s []string) []string {
 			if isVowel(string(s[i+1][0])) {
 				s[i] = "an"
 			}
+			if s[i] == "'" {
+				continue
+			}
 		}
 		if s[i] == "A" && i < len(s)-1 {
 			if isVowel(string(s[i+1][0])) {
@@ -303,10 +304,9 @@ func apostorophiii(string0 []string) []string {
 	string3 := strings.ReplaceAll(string2, "  ", " ")
 	s := []rune(string3)
 	A := 0
-	taille := len(s)
-	fmt.Println(string(s))
-	if len(s) > 1 { // pour gérer le cas ou on a une seule apostrophe
-		for i := 0; i < len(s); i++ {
+	taille := len(s) ////////////////////////apres voir si on a vrament besoin de taille. Ca marche teh utiliser wouma ko
+	if taille > 1 {  // pour gérer le cas où on a une seule apostrophe
+		for i := 0; i < taille; i++ {
 			if (s[i] == '\'' || s[i] == '"') && (A == 0) {
 				s = append(s[:i+1], s[(i+2):]...)
 				taille--
@@ -314,11 +314,13 @@ func apostorophiii(string0 []string) []string {
 				continue
 			}
 			if (s[i] == '\'' || s[i] == '"') && (A == 1) {
-				s = append(s[:i-1], s[(i):]...)
-				taille--
+				if s[i-1] != '\'' && s[i-1] != '"' { // dan sle cas où on a "" ou ''
+					s = append(s[:i-1], s[(i):]...)
+					taille--
+				}
 				A = 0
 			}
-			if s[len(s)-1] == '\'' || s[len(s)-1] == '"' {
+			if s[taille-1] == '\'' || s[taille-1] == '"' {
 				s = append(s[:i-1], s[(i):]...)
 				taille--
 			}
@@ -328,13 +330,47 @@ func apostorophiii(string0 []string) []string {
 	return slice
 }
 
-func espacesSup(s string) string {
-	for i, l := range s {
-		if l == ' ' {
-			i++
+func Punctuation(string0 []string) []string {
+	string1 := strings.Join(string0, " ")
+	s := []rune(string1)
+	for i := 0; i < len(s); i++ {
+		if i > 0 {
+			if IsPonctuation(s[i]) {
+				if s[i-1] == ' ' {
+					if IsPonctuation(s[i]) && i+2 > len(s)-1 && s[i-1] == ' ' {
+						s = append(s[:i-1], s[i:]...) // s[i-1] = '+' // pourquoi le i+1 qu'ils ont mis? ça ne marche meme paas
+					} else { // manam If the current rune is not at the end of the string, it swaps
+						s[i-1] = s[i] // ça swap ici hein
+						s[i] = ' '
+					}
+				} else if i+1 < len(s)-2 && s[i+1] != ' ' && s[i-1] != '.' {
+					s = append(s[:i], append([]rune{' ', s[i]}, s[i+1:]...)...)
+				}
+			}
+		} else if i == 0 { // faudra utiliser un tablaeu
+			if IsPonctuation(s[i]) {
+				s = append([]rune{' ', s[i]}, s[i+1:]...) //s = append(s[i:], append([]rune{' ', s[i]}, s[i+1:]...)...)
+			}
 		}
+
 	}
-	return s
+	slice := strings.Fields(string(s))
+	return slice
+}
+
+func IsPonctuation(s rune) bool {
+	if s == '.' || s == ',' || s == '!' || s == '?' || s == ':' || s == ';' {
+		return true
+	}
+	return false
+}
+
+func IsAlpha(s rune) bool {
+	if (s < 48 || s > 57) && (s < 65 || s > 90) && (s < 97 || s > 122) {
+		return false
+	}
+
+	return true
 }
 
 func EcrireF(s []string) {
@@ -359,11 +395,12 @@ func main() {
 			fich1, _ := ioutil.ReadFile(arg[0])
 			a = strings.Fields(string(fich1))
 		}
-		fmt.Println(a)
+		//fmt.Println(a)
 		b := apostorophiii(a)
-		c := AToAn(b)
-		d := motcle(c)
-		fmt.Println(d)
-		EcrireF(d)
+		c := motcle(b)
+		d := AToAn(c)
+		e := Punctuation(d)
+	//	fmt.Println(e)
+		EcrireF(e)
 	}
 }

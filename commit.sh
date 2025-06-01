@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Ajouter les dépôts distants
- git remote add origin https://learn.zone01dakar.sn/git/yayediop/piscine-flutter
- git remote add github https://github.com/yayediop2/piscine-flutter
+ git remote add origin https://learn.zone01dakar.sn/git/yayediop/piscine-go
+ git remote add github https://github.com/yayediop2/piscine-go
 
 # Ajouter tous les fichiers au commit
 git add .
